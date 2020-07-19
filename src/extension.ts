@@ -70,7 +70,7 @@ export class WordCounter {
             let {chinese, all} = this._getWordCount(doc);
 
             // Update the status bar
-            this._statusBarItem.text = `$(pencil) 中文 ${chinese} 字，共 ${all} 字`;
+            this._statusBarItem.text = `$(pencil) 中 ${chinese} 字，共 ${all} 字`;
             this._statusBarItem.show();
         } else {
             this._statusBarItem.hide();
