@@ -7,37 +7,31 @@ import {window, workspace, commands, Disposable, ExtensionContext, StatusBarAlig
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
-	window.showInformationMessage('Congratulations, your extension "wtee" is now active!');
+    window.showInformationMessage('writee已激活！');
+    
+    let wordCounter = new WordCounter();
+    let controller = new WordCounterController(wordCounter);
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
-	let disposable = commands.registerCommand('wtee.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		window.showInformationMessage('Hello World from wtee!');
-	});
-	let showHover = commands.registerCommand('wtee.showHover', () => {
+	let showCounnt = commands.registerCommand('writee.showCounnt', () => {
 		let editor = window.activeTextEditor;
         if (!editor) {
             return;
         }
-		let doc = editor.document;
-		let docContent = doc.getText();
-		let length = docContent.length;
-		window.showInformationMessage(`字数：${length}`);
+        let doc = editor.document;
+        let {chinese, all} = wordCounter._getWordCount(doc);
+		window.showInformationMessage(`中文字数：${chinese}，全文字数：${all}`);
 	});
-
-	let wordCounter = new WordCounter();
-    let controller = new WordCounterController(wordCounter);
+    
 	context.subscriptions.push(controller);
     context.subscriptions.push(wordCounter);
 	// add to a list of disposables which are disposed when this extension
     // is deactivated again.
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(showCounnt);
 }
 
 // this method is called when your extension is deactivated
@@ -69,8 +63,18 @@ export class WordCounter {
         if (doc.languageId === "plaintext") {
             let {chinese, all} = this._getWordCount(doc);
 
+            const showChineseCount = workspace.getConfiguration().get('writee.showChineseCount');
+            const showAllCount = workspace.getConfiguration().get('writee.showAllCount');
+
             // Update the status bar
-            this._statusBarItem.text = `$(pencil) 中 ${chinese} 字，共 ${all} 字`;
+            let textArr = [];
+            if (showChineseCount) {
+                textArr.push(`中 ${chinese} 字`);
+            }
+            if(showAllCount) {
+                textArr.push(`共 ${all} 字`);
+            }
+            this._statusBarItem.text = '$(pencil) ' + textArr.join('，');
             this._statusBarItem.show();
         } else {
             this._statusBarItem.hide();

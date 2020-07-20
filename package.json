@@ -1,14 +1,15 @@
 {
-	"name": "wtee",
-	"displayName": "wtee",
-	"description": "",
+	"name": "writee",
+	"displayName": "writee-for-vscode",
+	"description": "One plugin for vscode to write story.",
 	"keywords": [
 		"vscode",
 		"plugin",
-		"demo"
+		"write"
 	],
 	"version": "0.0.1",
 	"publisher": "yangqi",
+	"repository": "https://github.com/lemtasev/writee-for-vscode",
 	"engines": {
 		"vscode": "^1.47.0"
 	},
@@ -23,33 +24,29 @@
 	"contributes": {
 		"configuration": {
 			"type": "object",
-			"title": "vscode-plugin-demo",
+			"title": "writee",
 			"properties": {
-				"vscodePluginDemo.你的名字": {
-					"type": "string",
-					"default": "guest",
-					"description": "你的名字"
-				},
-				"vscodePluginDemo.showTip": {
+				"writee.showChineseCount": {
 					"type": "boolean",
 					"default": true,
-					"description": "是否在每次启动时显示欢迎提示！"
+					"description": "显示中文汉字字数"
+				},
+				"writee.showAllCount": {
+					"type": "boolean",
+					"default": true,
+					"description": "显示全文字数，包含符号"
 				}
 			}
 		},
 		"commands": [
 			{
-				"command": "wtee.helloWorld",
-				"title": "Hello World"
-			},
-			{
-				"command": "wtee.showHover",
-				"title": "Show Hover"
+				"command": "writee.showCounnt",
+				"title": "统计字数"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "wtee.showHover",
+				"command": "writee.showCounnt",
 				"key": "ctrl+l",
 				"mac": "cmd+l",
 				"when": "editorTextFocus"
@@ -59,46 +56,8 @@
 			"editor/context": [
 				{
 					"when": "editorFocus",
-					"command": "wtee.showHover",
+					"command": "writee.showCounnt",
 					"group": "navigation@1"
-				}
-			],
-			"editor/title/context": [
-				{
-					"when": "resourceLangId == javascript",
-					"command": "wtee.showHover",
-					"group": "navigation"
-				}
-			],
-			"explorer/context": [
-				{
-					"command": "wtee.showHover",
-					"group": "navigation"
-				}
-			]
-		},
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "myplugin",
-					"title": "测试插件",
-					"icon": "static/images/icon.jpg"
-				}
-			]
-		},
-		"views": {
-			"myplugin": [
-				{
-					"id": "myplugin1",
-					"name": "他1"
-				},
-				{
-					"id": "myplugin2",
-					"name": "天"
-				},
-				{
-					"id": "myplugin3",
-					"name": "拖"
 				}
 			]
 		}
