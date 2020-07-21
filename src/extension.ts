@@ -26,14 +26,26 @@ export function activate(context: ExtensionContext) {
     initTest(context);
 }
 
+function getSelectionText() {
+    var editor = window.activeTextEditor;
+    if (!editor) {
+        return ""; // No open text editor
+    }
+    var selection = editor.selection;
+    var text = editor.document.getText(selection);
+    if (!text) {
+        return "";
+    }
+    return text;
+}
+
 function initTest(context: ExtensionContext) {
     languages.registerHoverProvider('plaintext', {
         provideHover(document, position, token) {
-            const t = new Date();
-            const s = `${t.getFullYear()}-${t.getMonth()}-${t.getDate()} ${t.getHours()}:${t.getMinutes()}:${t.getSeconds()}`;
+            let text = getSelectionText();
             return {
                 contents: [
-                    s,
+                    text,
                     `document    ${JSON.stringify(document)}`,
                     `position    ${JSON.stringify(position)}`,
                     `token       ${JSON.stringify(token)}`
@@ -68,15 +80,7 @@ function initTest(context: ExtensionContext) {
         //     console.log(res);
         // });
 
-        var editor = window.activeTextEditor;
-        if (!editor) {
-            return; // No open text editor
-        }
-        var selection = editor.selection;
-        var text = editor.document.getText(selection);
-        if (!text) {
-            return;
-        }
+        let text = getSelectionText();
         window.showInformationMessage(text);
     });
     context.subscriptions.push(test);
@@ -157,6 +161,7 @@ export class WordCounter {
             this._statusBarItem.tooltip = textArr.join('，');
             this._statusBarItem.text = '$(pencil) ' + textArr.join('，');
             this._statusBarItem.show();
+            this._statusBarItem.command = "writee.showCounnt";
         } else {
             this._statusBarItem.hide();
         }

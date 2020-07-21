@@ -16,7 +16,7 @@
 	"categories": [
 		"Other"
 	],
-    "icon": "./images/icon.jpg",
+	"icon": "./images/icon.jpg",
 	"activationEvents": [
 		"onLanguage:plaintext"
 	],
@@ -38,19 +38,25 @@
 				},
 				"writee.targetWordCount": {
 					"type": "number",
-                    "default": 3000,
-                    "description": "目标章节字数"
+					"default": 3000,
+					"description": "目标章节字数"
 				}
 			}
 		},
 		"commands": [
 			{
 				"command": "writee.test",
-				"title": "测试功能"
+				"title": "测试功能",
+				"category": "writee",
+				"icon": {
+					"light": "./images/icon.jpg",
+					"dark": "./images/icon.jpg"
+				}
 			},
 			{
 				"command": "writee.showCounnt",
-				"title": "统计字数"
+				"title": "统计字数",
+				"category": "writee"
 			},
 			{
 				"command": "writee.webview",
@@ -80,19 +86,19 @@
 				}
 			],
 			"explorer/context": [
-                {
+				{
 					"when": "resourceLangId == plaintext || resourceLangId != ''",
-                    "command": "writee.webview",
-                    "group": "navigation@1"
-                }
-            ]
+					"command": "writee.webview",
+					"group": "navigation@1"
+				}
+			]
 		},
 		"snippets": [
-            {
-                "language": "plaintext",
-                "path": "./snippets/plaintext.json"
-            }
-        ]
+			{
+				"language": "plaintext",
+				"path": "./snippets/plaintext.json"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
