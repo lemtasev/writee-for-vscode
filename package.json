@@ -1,7 +1,7 @@
 {
 	"name": "writee",
-	"displayName": "writee-for-vscode",
-	"description": "One plugin for vscode to write story.",
+	"displayName": "Writee For Vscode",
+	"description": "一个用vscode进行中文写作的插件。",
 	"keywords": [
 		"vscode",
 		"plugin",
@@ -16,7 +16,7 @@
 	"categories": [
 		"Other"
 	],
-    "icon": "static/images/icon.jpg",
+    "icon": "./images/icon.jpg",
 	"activationEvents": [
 		"onLanguage:plaintext"
 	],
@@ -35,16 +35,35 @@
 					"type": "boolean",
 					"default": true,
 					"description": "显示全文字数，包含符号"
+				},
+				"writee.targetWordCount": {
+					"type": "number",
+                    "default": 3000,
+                    "description": "目标章节字数"
 				}
 			}
 		},
 		"commands": [
 			{
+				"command": "writee.test",
+				"title": "测试功能"
+			},
+			{
 				"command": "writee.showCounnt",
 				"title": "统计字数"
+			},
+			{
+				"command": "writee.webview",
+				"title": "通过webview打开"
 			}
 		],
 		"keybindings": [
+			{
+				"command": "writee.test",
+				"key": "ctrl+t",
+				"mac": "cmd+t",
+				"when": "editorTextFocus"
+			},
 			{
 				"command": "writee.showCounnt",
 				"key": "ctrl+l",
@@ -59,8 +78,21 @@
 					"command": "writee.showCounnt",
 					"group": "navigation@1"
 				}
-			]
-		}
+			],
+			"explorer/context": [
+                {
+					"when": "resourceLangId == plaintext || resourceLangId != ''",
+                    "command": "writee.webview",
+                    "group": "navigation@1"
+                }
+            ]
+		},
+		"snippets": [
+            {
+                "language": "plaintext",
+                "path": "./snippets/plaintext.json"
+            }
+        ]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
